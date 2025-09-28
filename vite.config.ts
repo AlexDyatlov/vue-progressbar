@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: true,
+    port: Number(process.env.VITE_PORT) || 8080,
+    hmr: true
+  },
+  preview: {
+    port: Number(process.env.VITE_PORT) || 8080
+  },
   plugins: [vue()],
 })
