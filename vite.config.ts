@@ -11,4 +11,11 @@ export default defineConfig({
     port: Number(process.env.VITE_PORT) || 8080
   },
   plugins: [vue()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ['import']
+      },
+    }
+  },
 })
