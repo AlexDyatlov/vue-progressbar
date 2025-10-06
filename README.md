@@ -11,7 +11,7 @@
   + `npm run dev` - запускает приложение в режиме разработки.
   + `npm run format` - форматирует файлы с помощью Prettier.
   + `npm run lint` - запускает ESLint для проверки ts,vue файлов.
-  + `npm run ts-lint` - проверяет TypeScript код на наличие ошибок.
+  + `npm run type:check` - проверяет типы TypeScript на наличие ошибок.
 
 
 ### <a name="docker"></a> 🐳 Развертывание проекта в Docker:
@@ -25,8 +25,8 @@
   + `docker compose run --rm node npm run format`
 4. Запуск ESLint:
   + `docker compose run --rm node npm run lint`
-5. Запуск TS-Lint:
-  + `docker compose run --rm node npm run ts-lint`
+5. Запуск проверки типов:
+  + `docker compose run --rm node npm run type:check`
 
 
 #### Выполнение команд в контейнере
