@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath } from 'url';
 
 export default defineConfig(({ mode }) => {
   return {
@@ -18,6 +19,14 @@ export default defineConfig(({ mode }) => {
         scss: {
           silenceDeprecations: ['import']
         }
+      }
+    },
+    build: {
+      assetsInlineLimit: 0
+    },
+    resolve: {
+      alias: {
+        '@/': fileURLToPath(new URL('./src/', import.meta.url))
       }
     }
   };

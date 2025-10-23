@@ -1,0 +1,42 @@
+.ui-kit {
+  padding-block: 30px;
+
+  &__box {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 40px;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__box--border &__item {
+    border-right: 2px solid #000;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-inline: 20px;
+  }
+
+  &__text {
+    margin-bottom: 2px;
+    @include font(14px, 16px, 500);
+  }
+
+  &__text code {
+    display: inline-block;
+    background: #9f4db6;
+    padding: 4px 6px;
+    border-radius: 8px;
+    color: #fff;
+  }
+
+  &__range {
+    margin-top: 16px;
+    cursor: pointer;
+  }
+}

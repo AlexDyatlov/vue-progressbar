@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import UiContainer from './ui-container.vue';
+import uiContainer from './ui-container.vue';
 
 interface HeaderProps {
   title: string;

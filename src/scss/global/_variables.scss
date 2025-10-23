@@ -7,6 +7,12 @@ $grid-breakpoints: (
   xxl: 1400px
 );
 
+:root {
+  --color-success: #12ce66;
+  --color-warning: #e7a23d;
+  --color-error: #eb0b0b;
+}
+
 $t-duration: 200ms;
 $t-function: ease-in-out;
 
