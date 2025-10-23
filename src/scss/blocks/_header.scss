@@ -1,0 +1,12 @@
+.header {
+  padding-block: 30px;
+  background-color: #f5f5f5;
+}
+
+.header__title {
+  @include font(20px, 24px, 700);
+
+  @include media-breakpoint-up(md) {
+    @include font(26px, 30px, 700);
+  }
+}

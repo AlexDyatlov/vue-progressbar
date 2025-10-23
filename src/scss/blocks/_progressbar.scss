@@ -1,0 +1,80 @@
+.progressbar {
+  --progressbar-circumference: 440px;
+  --progressbar-cut: 0px;
+  --progressbar-degree: -90deg;
+  --progressbar-track-bg-color: #f6f7fa;
+  --progressbar-indicator-bg-color: #20a0ff;
+  --progressbar-offset-end: calc(
+    var(--progressbar-circumference) -
+      ((var(--progressbar-circumference) - var(--progressbar-cut)) * var(--progressbar-value) / 100)
+  );
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &__svg {
+    transform: rotate(var(--progressbar-degree));
+    stroke-linecap: round;
+    stroke-width: 12px;
+    fill: transparent;
+  }
+
+  &__track {
+    stroke: var(--progressbar-track-bg-color);
+    stroke-dasharray: var(--progressbar-circumference);
+    stroke-dashoffset: var(--progressbar-cut);
+  }
+
+  &__indicator {
+    stroke: var(--progressbar-indicator-bg-color);
+    stroke-dasharray: var(--progressbar-circumference);
+    stroke-dashoffset: var(--progressbar-offset-end);
+    animation: progressbar-fill 1s ease forwards;
+  }
+
+  &__value {
+    position: absolute;
+    @include font(16px, 20px);
+
+    color: #2b2b2b;
+    text-align: center;
+    user-select: none;
+  }
+
+  &__icon {
+    position: absolute;
+    color: var(--progressbar-indicator-bg-color);
+  }
+
+  &._empty &__indicator {
+    stroke: none;
+  }
+
+  &._success {
+    --progressbar-indicator-bg-color: var(--color-success);
+  }
+
+  &._warning {
+    --progressbar-indicator-bg-color: var(--color-warning);
+  }
+
+  &._error {
+    --progressbar-indicator-bg-color: var(--color-error);
+  }
+
+  &--dashboard {
+    --progressbar-cut: 130px;
+    --progressbar-degree: 144deg;
+  }
+}
+
+@keyframes progressbar-fill {
+  from {
+    stroke-dashoffset: var(--progressbar-circumference);
+  }
+  to {
+    stroke-dashoffset: var(--progressbar-offset-end);
+  }
+}
