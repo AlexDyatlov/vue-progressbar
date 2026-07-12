@@ -1,0 +1,86 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH =~ /^release\//
+
+stages:
+  - check
+  - test # Добавлена стандартная стадия для работы SAST шаблонов из коробки
+  - build
+  - scan
+  - deploy
+
+variables:
+  NPM_CONFIG_CACHE: .npm
+
+default:
+  image: node:22
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  interruptible: true
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+# ========== АВТО-ФЛОУ: MR → main ==========
+
+lint:
+  stage: check
+  script:
+    - npm ci
+    - npm run check
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# Принудительно включаем SAST для Merge Request
+semgrep-sast:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# Принудительно включаем поиск секретов для Merge Request
+secret_detection:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# ========== РУЧНОЙ ФЛОУ: релизная ветка ==========
+
+build_production:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release\//
+      when: manual
+
+npm_audit:
+  stage: scan
+  needs:
+    - build_production
+  script:
+    - npm audit --omit=dev
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release\//
+
+pages:
+  stage: deploy
+  needs:
+    - build_production
+    - npm_audit
+  script:
+    - mv dist public # Чисто переименовываем dist в public. index.html встает в корень.
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release\//
+      when: manual
